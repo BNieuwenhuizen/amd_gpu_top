@@ -1,0 +1,21 @@
+amd_gpu_tools is a commandline program that gives an indication which blocks
+of a GPU are busy.
+
+This is done in a style similar to intel_gpu_top. However amd_gpu_top works
+for AMD cards. Currently the only card that is tested and enabled is an AMD
+TONGA card, but as most of the registers have not changed from CIK  it should
+be doable to add those.
+
+The software can be build with CMake and should be run from an user which has
+the permissions to map a PCI memory range (for example root).
+
+Dependencies:
+ - pciaccess
+ - CMake
+ - a c++11 compiler
+ 
+Author:
+ - Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+
+ 
+amd_gpu_top is licensed under the MIT license. 

@@ -1,0 +1,14 @@
+UseTab: Never
+IndentWidth: 4
+ColumnLimit: 120
+PointerAlignment: Left
+Standard: Cpp11
+Cpp11BracedListStyle: true
+BreakBeforeBinaryOperators: None
+BinPackParameters: false
+BinPackArguments: false
+SpaceBeforeParens: Never
+MaxEmptyLinesToKeep: 2
+DerivePointerAlignment: false
+AllowShortFunctionsOnASingleLine: Empty
+BreakBeforeBraces: Linux

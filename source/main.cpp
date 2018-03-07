@@ -36,6 +36,15 @@ namespace
 
 char const* bars[] = {" ", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"};
 
+bool isDeviceSupported(pci_device* device)
+{
+    switch(device->device_id) {
+    case 0x6938:
+    case 0x6939:
+        return true;
+    }
+    return false;
+}
 
 pci_device* getPCIDevice()
 {
@@ -51,7 +60,7 @@ pci_device* getPCIDevice()
     pci_id_match match;
 
     match.vendor_id = 0x1002; // AMD?
-    match.device_id = 0x6939; // TONGA?
+    match.device_id = PCI_MATCH_ANY;
     match.subvendor_id = PCI_MATCH_ANY;
     match.subdevice_id = PCI_MATCH_ANY;
 
@@ -61,8 +70,14 @@ pci_device* getPCIDevice()
     match.match_data = 0;
 
     iter = pci_id_match_iterator_create(&match);
-    device = pci_device_next(iter);
+
+    // TONGA?
+    while(device = pci_device_next(iter)) {
+        if(isDeviceSupported(device))
+            break;
+    }
     pci_iterator_destroy(iter);
+
     if(!device) {
         std::cerr << "could not find an AMD TONGA GPU\n";
         std::exit(1);
@@ -127,7 +142,7 @@ int main()
     int sampleCount = 100;
 
     void* mmioAddress;
-    
+
     // TODO: better selection of region & size
     if(pci_device_map_range(dev, dev->regions[5].base_addr, 0x40000, 0, &mmioAddress)) {
         std::cerr << "mmio mem map failed (try to run as root)\n";
